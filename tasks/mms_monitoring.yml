@@ -1,0 +1,36 @@
+---
+- name: download monitoring agent
+  get_url:
+    url: "{{ mongodb_monitor_agent_url }}"
+    dest: /tmp/{{ mongodb_monitor_agent_url | basename }}
+
+- name: install monitoring agent (deb)
+  apt:
+    deb: /tmp/{{ mongodb_monitor_agent_url | basename }}
+  when: ansible_os_family == 'Debian'
+
+- name: install monitoring agent (rpm)
+  yum:
+    name: /tmp/{{ mongodb_monitor_agent_url | basename }}
+    state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: set automation agent config
+  set_fact:
+    mongodb_monitor_agent_config: "{{ mongodb_monitor_agent_base_config | combine(mongodb_monitor_agent_config) }}"
+
+- name: write monitoring agent config
+  template:
+    src: "{{ mongodb_monitor_agent_template }}"
+    dest: /etc/mongodb-mms/monitoring-agent.config
+    owner: 'mongodb-mms-agent'
+    group: 'mongodb-mms-agent'
+    mode: 0600
+  notify:
+    - restart mongodb-mms-monitoring-agent
+
+- name: manage monitoring agent service
+  service:
+    name: mongodb-mms-monitoring-agent
+    state: "{{ mongodb_monitor_agent_service_state }}"
+    enabled: "{{ mongodb_monitor_agent_service_enabled }}"

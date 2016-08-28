@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+
+{{ mongodb_config.systemLog.path }} {
+{% for key, value in mongodb_logrotate_config.iteritems() %}
+    {{ value if key == 'frequency' else key + ' ' + value|string }}
+{% endfor %}
+    missingok
+    compress
+    delaycompress
+    notifempty
+    create
+    postrotate
+        kill -USR1 `cat {{ mongodb_config.storage.dbPath }}/mongod.lock 2> /dev/null` 2> /dev/null || true
+    endscript
+}

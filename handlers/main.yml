@@ -1,0 +1,22 @@
+---
+- name: reload systemd
+  command: systemctl daemon-reload
+  when: ansible_service_mgr == 'systemd'
+
+- name: restart mongodb
+  service:
+    name: mongod
+    state: restarted
+  when: mongodb_restart_on_update and mongodb_service_state == 'started'
+
+- name: restart mongodb-mms-monitoring-agent
+  service:
+    name: mongodb-mms-monitoring-agent
+    state: restarted
+  when: mongodb_monitor_agent_service_state == 'started'
+
+- name: restart mongodb-mms-automation-agent
+  service:
+    name: mongodb-mms-automation-agent
+    state: restarted
+  when: mongodb_automation_agent_service_state == 'started'

@@ -1,0 +1,35 @@
+---
+mongodb_version: "3.2"
+mongodb_apt_keyserver: keyserver.ubuntu.com
+mongodb_apt_key_id: "{{ 'EA312927' if mongodb_version[0:3] == '3.2' else '7F0CEB10' }}"
+
+mongodb_service_enabled: true     # whether service is enabled/disabled
+mongodb_service_state: started    # desired state of mongod service
+mongodb_restart_on_update: true   # restart on config file/service changes
+
+mongodb_config: {}
+
+mongodb_keyfile_content: ~
+
+mongodb_logrotate_enabled: true
+mongodb_logrotate_config:
+  frequency: daily
+  rotate: 30
+
+mongodb_install_monitor_agent: false
+mongodb_monitor_agent_service_state: started
+mongodb_monitor_agent_service_enabled: true
+mongodb_monitor_agent_config: {}
+
+mongodb_install_automation_agent: false
+mongodb_automation_agent_service_state: started
+mongodb_automation_agent_service_enabled: true
+mongodb_automation_agent_config: {}
+
+mongodb_config_template: mongod_conf.j2
+mongodb_logrotate_template: mongod_logrotate.j2
+mongodb_monitor_agent_template: mms_monitoring_agent_config.j2
+mongodb_automation_agent_template: mms_automation_agent_config.j2
+
+mongodb_min_version: "3.0"
+mongodb_max_version: "3.3"

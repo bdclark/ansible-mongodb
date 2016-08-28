@@ -1,0 +1,13 @@
+---
+mongodb_user: mongod
+mongodb_group: mongod
+
+mongodb_monitor_agent_url: https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent-latest.x86_64.rpm
+mongodb_automation_agent_url: https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager-latest.x86_64.rpm
+
+mongodb_os_config:
+  processManagement:
+      fork: true
+      pidFilePath: /var/run/mongodb/mongod.pid
+  storage:
+    dbPath: /var/lib/mongo

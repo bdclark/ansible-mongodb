@@ -1,0 +1,22 @@
+---
+- name: assert supported mongodb_version
+  assert:
+    that:
+      - mongodb_version[0:3] | version_compare(mongodb_min_version, '>=') and mongodb_version | version_compare(mongodb_max_version, '<=')
+      - not (ansible_distribution == 'Ubuntu' and ansible_distribution_version | version_compare('16.04', '>=') and mongodb_version[0:3] | version_compare('3.2', '<'))
+
+- include_vars: base_config.yml
+- include_vars: "{{ ansible_os_family }}.yml"
+
+- name: set mongodb configuration
+  set_fact:
+    mongodb_config: "{{ mongodb_base_config | combine(mongodb_os_config, mongodb_config, recursive=True) }}"
+
+- include: repo.yml
+- include: server.yml
+
+- include: mms_monitoring.yml
+  when: mongodb_install_monitor_agent
+
+- include: mms_automation.yml
+  when: mongodb_install_automation_agent

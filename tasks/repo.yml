@@ -1,0 +1,28 @@
+---
+- name: assert supported mongodb_version
+  assert:
+    that:
+      - mongodb_version[0:3] | version_compare(mongodb_min_version, '>=') and mongodb_version | version_compare(mongodb_max_version, '<=')
+      - not (ansible_distribution == 'Ubuntu' and ansible_distribution_version | version_compare('16.04', '>=') and mongodb_version[0:3] | version_compare('3.2', '<'))
+
+- name: add apt key
+  apt_key:
+    keyserver: "{{ mongodb_apt_keyserver }}"
+    id: "{{ mongodb_apt_key_id }}"
+  when: ansible_os_family == 'Debian'
+
+- name: add apt repository
+  apt_repository:
+    filename: "mongodb-org-{{ mongodb_version[0:3] }}"
+    repo: "deb http://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release }}/mongodb-org/{{ mongodb_version[0:3] }} multiverse"
+  when: ansible_os_family == 'Debian'
+
+- name: add yum repository
+  yum_repository:
+    name: "mongodb-org-{{ mongodb_version[0:3] }}"
+    description: MongoDB Repository
+    baseurl: "https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/{{ mongodb_version[0:3] }}/x86_64/"
+    gpgkey: "https://www.mongodb.org/static/pgp/server-{{ mongodb_version[0:3] }}.asc"
+    gpgcheck: yes
+    enabled: yes
+  when: ansible_os_family == 'RedHat'

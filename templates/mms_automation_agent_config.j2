@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+
+{% for key, value in mongodb_automation_agent_config.iteritems() %}
+{{ key }}={{ value }}
+{% endfor %}
+
+# For additional optional settings, please see
+# https://docs.cloud.mongodb.com/reference/automation-agent/

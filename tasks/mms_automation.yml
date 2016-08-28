@@ -1,0 +1,36 @@
+---
+- name: download automation agent
+  get_url:
+    url: "{{ mongodb_automation_agent_url }}"
+    dest: /tmp/{{ mongodb_automation_agent_url | basename }}
+
+- name: install automation agent (deb)
+  apt:
+    deb: /tmp/{{ mongodb_automation_agent_url | basename }}
+  when: ansible_os_family == 'Debian'
+
+- name: install automation agent (rpm)
+  yum:
+    name: /tmp/{{ mongodb_automation_agent_url | basename }}
+    state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: set automation agent config
+  set_fact:
+    mongodb_automation_agent_config: "{{ mongodb_automation_agent_base_config | combine(mongodb_automation_agent_config) }}"
+
+- name: write automation agent config
+  template:
+    src: "{{ mongodb_automation_agent_template }}"
+    dest: /etc/mongodb-mms/automation-agent.config
+    owner: "{{ mongodb_user }}"
+    group: "{{ mongodb_group }}"
+    mode: 0600
+  notify:
+    - restart mongodb-mms-automation-agent
+
+- name: manage automation agent service
+  service:
+    name: mongodb-mms-automation-agent
+    state: "{{ mongodb_automation_agent_service_state }}"
+    enabled: "{{ mongodb_automation_agent_service_enabled }}"
