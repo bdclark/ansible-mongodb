@@ -2,6 +2,10 @@
 mongodb_user: mongod
 mongodb_group: mongod
 
+mongodb_repository:
+  '2': http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
+  '3': https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/{{ mongodb_version[0:3] }}/x86_64/
+
 mongodb_monitor_agent_url: https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent-latest.x86_64.rpm
 mongodb_automation_agent_url: https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager-latest.x86_64.rpm
 
