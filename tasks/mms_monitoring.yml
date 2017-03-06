@@ -32,5 +32,5 @@
 - name: manage monitoring agent service
   service:
     name: mongodb-mms-monitoring-agent
-    state: "{{ mongodb_monitor_agent_service_state }}"
-    enabled: "{{ mongodb_monitor_agent_service_enabled }}"
+    state: "{{ mongodb_enable_monitor_agent_service | bool | ternary('started', 'stopped') }}"
+    enabled: "{{ mongodb_enable_monitor_agent_service }}"

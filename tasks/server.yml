@@ -82,5 +82,23 @@
 - name: manage mongod service
   service:
     name: mongod
-    state: "{{ mongodb_service_state }}"
-    enabled: "{{ mongodb_service_enabled }}"
+    state: "{{ mongodb_enable_service | bool | ternary('started', 'stopped') }}"
+    enabled: "{{ mongodb_enable_service }}"
+
+- name: install pymongo package
+  package:
+    name: python-pymongo
+    state: present
+  when: mongodb_pymongo_install_method == 'package'
+
+- name: install pip
+  package:
+    name: python-pip
+    state: present
+  when: mongodb_pymongo_install_method == 'pip'
+
+- name: pip install pymongo
+  pip:
+    name: pymongo
+    state: present
+  when: mongodb_pymongo_install_method == 'pip'

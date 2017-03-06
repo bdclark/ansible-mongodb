@@ -32,5 +32,5 @@
 - name: manage automation agent service
   service:
     name: mongodb-mms-automation-agent
-    state: "{{ mongodb_automation_agent_service_state }}"
-    enabled: "{{ mongodb_automation_agent_service_enabled }}"
+    state: "{{ mongodb_enable_automation_agent_service | bool | ternary('started', 'stopped') }}"
+    enabled: "{{ mongodb_enable_automation_agent_service }}"
