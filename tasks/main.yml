@@ -13,7 +13,7 @@
     mongodb_config: "{{ mongodb_base_config | combine(mongodb_os_config, mongodb_config, recursive=True) }}"
 
 - include: install_{{ ansible_os_family | lower }}.yml
-- include: server.yml
+- include: configure.yml
 
 - include: mms_monitoring.yml
   when: mongodb_install_monitor_agent

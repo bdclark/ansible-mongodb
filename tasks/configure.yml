@@ -63,8 +63,6 @@
   when: mongodb_keyfile_content
         and mongodb_config.security.keyFile is defined
         and mongodb_config.security.keyFile
-  notify:
-    - restart mongodb
 
 - name: create keyFile
   copy:
