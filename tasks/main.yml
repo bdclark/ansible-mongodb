@@ -12,7 +12,7 @@
   set_fact:
     mongodb_config: "{{ mongodb_base_config | combine(mongodb_os_config, mongodb_config, recursive=True) }}"
 
-- include: repo.yml
+- include: install_{{ ansible_os_family | lower }}.yml
 - include: server.yml
 
 - include: mms_monitoring.yml
