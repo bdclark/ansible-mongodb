@@ -5,7 +5,7 @@ driver:
 provisioner:
   name: ansible_playbook
   require_chef_for_busser: false
-  require_ruby_for_busser: true
+  require_ruby_for_busser: false
   hosts: test-kitchen
   ansible_verbose: true
   ansible_verbosity: 1
@@ -14,7 +14,7 @@ provisioner:
   # idempotency_test: true
 
 verifier:
-  ruby_bindir: '/usr/bin'
+  name: inspec
 
 platforms:
   - name: ubuntu-14.04

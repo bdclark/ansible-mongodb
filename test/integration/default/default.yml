@@ -3,6 +3,10 @@
   remote_user: root
 
   vars:
-    mongodb_version: '3.2'
+    mongodb_version: 3.2.10
+    mongodb_config:
+      security:
+        keyFile: /etc/mongodb.keyfile
+    mongodb_keyfile_content: ilikerandomsecrets
   roles:
     - role: mongodb
