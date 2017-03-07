@@ -1,15 +1,17 @@
 
-if os[:family] == 'debian'
+if os.debian?
   mongodb_user = 'mongodb'
   mongodb_group = 'mongodb'
-elsif os[:family] == 'redhat'
-  mongodb_user = 'mongo'
-  mongodb_group = 'mongo'
+  data_dir = '/var/lib/mongodb'
+elsif os.redhat?
+  mongodb_user = 'mongod'
+  mongodb_group = 'mongod'
+  data_dir = '/var/lib/mongo'
 end
 
 describe package('mongodb-org') do
   it { should be_installed }
-  its('version') { should eq '3.2.10' }
+  its('version') { should match /^3.2.10/ }
 end
 
 describe service('mongod') do
@@ -29,7 +31,7 @@ describe file('/etc/mongod.conf') do
   its('mode') { should cmp '0644' }
 end
 
-describe directory('/var/lib/mongodb') do
+describe directory(data_dir) do
   it { should be_owned_by mongodb_user }
   it { should be_grouped_into mongodb_group }
   its('mode') { should cmp '0755' }
