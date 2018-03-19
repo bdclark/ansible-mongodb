@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+# This file is managed by Ansible.
 
 {{ mongodb_config.systemLog.path }} {
 {% for key, value in mongodb_logrotate_config.iteritems() %}

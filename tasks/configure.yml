@@ -80,8 +80,8 @@
 - name: manage mongod service
   service:
     name: mongod
-    state: "{{ mongodb_enable_service | bool | ternary('started', 'stopped') }}"
-    enabled: "{{ mongodb_enable_service }}"
+    state: "{{ mongodb_service_state }}"
+    enabled: "{{ mongodb_service_enabled }}"
 
 - name: install pymongo package
   package:

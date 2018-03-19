@@ -7,7 +7,7 @@
   service:
     name: mongod
     state: restarted
-  when: mongodb_restart_on_update and mongodb_enable_service
+  when: mongodb_service_enabled and mongodb_service_state == 'started' and mongodb_restart_on_update
 
 - name: restart mongodb-mms-monitoring-agent
   service:
