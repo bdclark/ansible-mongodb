@@ -1,8 +1,8 @@
 ---
 - name: add apt key
   apt_key:
-    keyserver: "{{ mongodb_apt_keyserver }}"
-    id: "{{ mongodb_apt_key_id }}"
+    url: "{{ mongodb_repo_key_url is none | ternary(omit, mongodb_repo_key_url) }}"
+    id: "{{ mongodb_apt_key_id is none | ternary(omit, mongodb_apt_key_id) }}"
 
 - name: install apt-transport-https
   apt:

@@ -11,7 +11,7 @@ end
 
 describe package('mongodb-org') do
   it { should be_installed }
-  its('version') { should match /^3.2.10/ }
+  its('version') { should match /^3.4.6/ }
 end
 
 describe service('mongod') do
