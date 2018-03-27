@@ -1,5 +1,5 @@
 ---
-mongodb_version: "3.4" # supports x.y or x.y.z format
+mongodb_version: "3.6" # supports x.y or x.y.z format
 mongodb_apt_keyserver: keyserver.ubuntu.com
 mongodb_apt_key_id: "{{ 'EA312927' if mongodb_version[0:3] == '3.2' else '7F0CEB10' }}"
 

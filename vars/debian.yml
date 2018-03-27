@@ -4,7 +4,7 @@ mongodb_group: mongodb
 
 mongodb_repository:
   '2': deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen
-  '3': deb http://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release }}/mongodb-org/{{ mongodb_version[0:3] }} multiverse
+  '3': deb https://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release }}/mongodb-org/{{ mongodb_version[0:3] }} multiverse
 
 mongodb_monitor_agent_url: https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent_latest_amd64.deb
 mongodb_automation_agent_url: https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager_latest_amd64.deb
