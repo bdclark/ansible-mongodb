@@ -33,5 +33,3 @@ mongodb_config_template: mongod_conf.j2
 mongodb_logrotate_template: mongod_logrotate.j2
 mongodb_monitor_agent_template: mms_monitoring_agent_config.j2
 mongodb_automation_agent_template: mms_automation_agent_config.j2
-
-mongodb_max_version: '3.4'
