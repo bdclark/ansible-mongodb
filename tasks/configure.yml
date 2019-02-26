@@ -1,20 +1,4 @@
 ---
-- name: write disable-transparent-hugepages script
-  copy:
-    src: disable-transparent-hugepages
-    dest: /etc/init.d/disable-transparent-hugepages
-    owner: root
-    group: root
-    mode: 0755
-  notify:
-    - reload systemd
-
-- name: start disable-transparent-hugepages service
-  service:
-    name: disable-transparent-hugepages
-    state: started
-    enabled: true
-
 - name: install mongodb package
   package:
     name: mongodb-org
@@ -23,17 +7,17 @@
 - name: ensure data directory
   file:
     state: directory
-    path: "{{ mongodb_config.storage.dbPath }}"
+    path: "{{ mongodb_final_config.storage.dbPath }}"
     owner: "{{ mongodb_user }}"
     group: "{{ mongodb_group }}"
 
 - name: ensure log directory
   file:
     state: directory
-    path: "{{ mongodb_config.systemLog.path | dirname }}"
+    path: "{{ mongodb_final_config.systemLog.path | dirname }}"
     owner: "{{ mongodb_user }}"
     group: "{{ mongodb_group }}"
-  when: mongodb_config.systemLog.path is defined
+  when: mongodb_final_config.systemLog.path is defined
 
 - name: write logrotate config
   template:
@@ -43,8 +27,8 @@
     group: root
     mode: 0644
   when: mongodb_logrotate_enabled and mongodb_logrotate_config
-        and mongodb_config.systemLog.path is defined and mongodb_config.systemLog.path
-        and mongodb_config.systemLog.destination is defined and mongodb_config.systemLog.destination|lower == 'file'
+        and mongodb_final_config.systemLog.path is defined and mongodb_final_config.systemLog.path
+        and mongodb_final_config.systemLog.destination is defined and mongodb_final_config.systemLog.destination|lower == 'file'
 
 - name: write config file
   template:
@@ -59,23 +43,43 @@
 - name: ensure keyFile directory
   file:
     state: directory
-    path: "{{ mongodb_config.security.keyFile | dirname }}"
+    path: "{{ mongodb_final_config.security.keyFile | dirname }}"
   when: mongodb_keyfile_content
-        and mongodb_config.security.keyFile is defined
-        and mongodb_config.security.keyFile
+        and mongodb_final_config.security.keyFile is defined
+        and mongodb_final_config.security.keyFile
 
 - name: create keyFile
   copy:
-    dest: "{{ mongodb_config.security.keyFile }}"
+    dest: "{{ mongodb_final_config.security.keyFile }}"
     content: "{{ mongodb_keyfile_content }}"
     owner: "{{ mongodb_user }}"
     group: "{{ mongodb_group }}"
     mode: 0600
   when: mongodb_keyfile_content
-        and mongodb_config.security.keyFile is defined
-        and mongodb_config.security.keyFile
+        and mongodb_final_config.security.keyFile is defined
+        and mongodb_final_config.security.keyFile
   notify:
     - restart mongodb
+
+- name: systemd service to disable THP
+  template:
+    src: disable_thp.service.j2
+    dest: /etc/systemd/system/disable-thp.service
+    owner: root
+    group: root
+    mode: 0644
+  when: mongodb_disable_thp
+  notify:
+    - reload systemd
+    - restart disable-thp
+    - restart mongodb
+
+- name: manage disable-thp service
+  systemd:
+    name: disable-thp
+    state: started
+    enabled: true
+  when: mongodb_disable_thp
 
 - name: manage mongod service
   service:

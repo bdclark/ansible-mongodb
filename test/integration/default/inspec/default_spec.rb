@@ -21,7 +21,7 @@ end
 
 describe port(27_017) do
   it { should be_listening }
-  its('addresses') { should include '0.0.0.0' }
+  its('addresses') { should include '127.0.0.1' }
 end
 
 describe file('/etc/mongod.conf') do
@@ -63,4 +63,12 @@ describe file('/etc/mongodb.keyfile') do
   it { should be_readable.by('owner') }
   its('mode') { should cmp '0600' }
   its('content') { should eq 'ilikerandomsecrets' }
+end
+
+describe directory('/etc/systemd/system/disable-thp.service') do
+  it { should be_file }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+  its('mode') { should cmp '0644' }
+  its('content') { should match /^\[Unit\]$/ }
 end

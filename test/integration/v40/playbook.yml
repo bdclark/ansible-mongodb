@@ -5,3 +5,17 @@
     mongodb_version: 4.0.5
   roles:
     - role: mongodb
+  tasks:
+    - name: install test dependencies
+      package:
+        name: net-tools
+        state: present
+
+    - name: flush handlers before testing
+      meta: flush_handlers
+
+    - name: wait for exporter ports
+      wait_for:
+        port: 27017
+        delay: 3
+        timeout: 30

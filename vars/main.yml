@@ -5,7 +5,7 @@ mongodb_config_file: /etc/mongod.conf
 mongodb_base_config:
   net:
     port: 27017
-    bindIp: 0.0.0.0
+    bindIp: 127.0.0.1
   storage:
     journal:
       enabled: true
@@ -13,6 +13,8 @@ mongodb_base_config:
     destination: file
     logAppend: true
     path: /var/log/mongodb/mongod.log
+
+mongodb_final_config: "{{ mongodb_base_config | combine(mongodb_os_config, mongodb_config, recursive=True) }}"
 
 mongodb_mongos_base_config:
   net:

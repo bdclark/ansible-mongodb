@@ -13,6 +13,8 @@ mongodb_service_state: "{{ mongodb_service_enabled | ternary('started', 'stopped
 # restart on config file/service changes
 mongodb_restart_on_update: true
 
+mongodb_disable_thp: false
+
 mongodb_config: {}
 
 mongodb_keyfile_content: ~

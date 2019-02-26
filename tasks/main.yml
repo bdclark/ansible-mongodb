@@ -10,11 +10,8 @@
 - name: include OS-specific variables
   include_vars: "{{ ansible_os_family | lower }}.yml"
 
-- name: set mongodb configuration
-  set_fact:
-    mongodb_config: "{{ mongodb_base_config | combine(mongodb_os_config, mongodb_config, recursive=True) }}"
-
 - include: install_{{ ansible_os_family | lower }}.yml
+
 - include: configure.yml
 
 - include: mms_monitoring.yml
