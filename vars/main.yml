@@ -1,4 +1,5 @@
 ---
+mongodb_version_string: "{{ mongodb_version | string }}"
 mongodb_config_file: /etc/mongod.conf
 
 mongodb_base_config:

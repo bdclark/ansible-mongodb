@@ -1,8 +1,0 @@
----
-- hosts: test-kitchen
-  remote_user: root
-
-  vars:
-    mongodb_version: '2.6'
-  roles:
-    - role: mongodb

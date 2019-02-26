@@ -1,8 +1,9 @@
 ---
 mongodb_version: "3.6"  # supports x.y or x.y.z format
-mongodb_repo_key_url: "{{ (mongodb_version is version_compare('3.0', '>=')) | ternary('https://www.mongodb.org/static/pgp/server-' + mongodb_version[0:3] + '.asc', 'https://docs.mongodb.com/10gen-gpg-key.asc') }}"
-mongodb_apt_key_id: "{{ (mongodb_version[0:3] in mongodb_apt_keys) | ternary(mongodb_apt_keys[mongodb_version[0:3]], none) }}"
 
+mongodb_repo_key_url: https://www.mongodb.org/static/pgp/server-{{ mongodb_version_string[0:3] }}.asc
+mongodb_apt_key_id: "{{ mongodb_apt_keys[mongodb_version_string[0:3]] | default('') }}"
+mongodb_repository: "{{ mongodb_default_repository }}"
 mongodb_pymongo_install_method: ~   # 'pip', 'package', or ~ to not install
 
 # whether service is enabled/disabled
@@ -33,10 +34,3 @@ mongodb_config_template: mongod_conf.j2
 mongodb_logrotate_template: mongod_logrotate.j2
 mongodb_monitor_agent_template: mms_monitoring_agent_config.j2
 mongodb_automation_agent_template: mms_automation_agent_config.j2
-
-mongodb_apt_keys:
-  '2.6': 7F0CEB10
-  '3.0': 7F0CEB10
-  '3.2': EA312927
-  '3.4': 0C49F3730359A14518585931BC711F9BA15703C6
-  '3.6': 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5

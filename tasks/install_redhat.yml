@@ -1,16 +1,16 @@
 ---
 - name: add yum repository
   yum_repository:
-    name: "mongodb-org-{{ mongodb_version[0:3] }}"
+    name: "mongodb-org-{{ mongodb_version_string[0:3] }}"
     description: MongoDB Repository
-    baseurl: "{{ mongodb_repository[mongodb_version[0:1]] }}"
-    gpgkey: "{{ (mongodb_version is version_compare('3.0', '>=')) | ternary(mongodb_repo_key_url, omit) }}"
-    gpgcheck: "{{ mongodb_version is version_compare('3.0', '>=') }}"
+    baseurl: "{{ mongodb_repository }}"
+    gpgkey: "{{ mongodb_repo_key_url }}"
+    gpgcheck: "{{ mongodb_repo_key_url | length > 0 }}"
     enabled: true
 
 - name: install mongodb yum package
   yum:
-    name: mongodb-org-{{  mongodb_version }}*
+    name: mongodb-org-{{  mongodb_version_string }}*
     state: present
   notify:
     - restart mongodb

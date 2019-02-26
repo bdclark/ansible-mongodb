@@ -1,29 +1,50 @@
 ---
 driver:
-  name: vagrant
+  name: docker
+  use_sudo: false
+  require_chef_omnibus: false
+  cap_add:
+    - SYS_ADMIN
+  run_options:
+    tmpfs:
+      - /run
+      - /run/lock
+    volume:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    stop-signal: SIGRTMIN+3
 
 provisioner:
-  name: ansible_playbook
-  require_chef_for_busser: false
-  require_ruby_for_busser: false
-  hosts: test-kitchen
-  ansible_verbose: true
-  ansible_verbosity: 1
-  ansible_diff: true
-  ansible_extra_flags: <%= ENV['ANSIBLE_EXTRA_FLAGS'] %>
-  # idempotency_test: true
+  name: ansible_push
+  ansible_config: test/ansible.cfg
+  verbose: v
+  diff: true
+  chef_bootstrap_url: nil
 
 verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu-14.04
+  - name: ubuntu-18.04
+    driver_config:
+      image: bdclark/ubuntu-1804-test:latest
+      run_command: /lib/systemd/systemd
+      # forward:
+      #   - 8080:8080
   - name: ubuntu-16.04
-  - name: centos-6.7
-  - name: centos-7.2
+    driver_config:
+      image: bdclark/ubuntu-1604-test:latest
+      run_command: /lib/systemd/systemd
+  - name: centos-7
+    driver_config:
+      image: bdclark/centos-7-test:latest
+      run_command: /lib/systemd/systemd
 
 suites:
   - name: default
-  - name: v26
+    provisioner:
+      playbook: test/integration/default/playbook.yml
     excludes:
-      - ubuntu-16.04
+      - ubuntu-18.04
+  - name: v40
+    provisioner:
+      playbook: test/integration/v40/playbook.yml
