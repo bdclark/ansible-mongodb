@@ -6,7 +6,7 @@
     baseurl: "{{ mongodb_repository[mongodb_version[0:1]] }}"
     gpgkey: "{{ (mongodb_version is version_compare('3.0', '>=')) | ternary(mongodb_repo_key_url, omit) }}"
     gpgcheck: "{{ mongodb_version is version_compare('3.0', '>=') }}"
-    enabled: yes
+    enabled: true
 
 - name: install mongodb yum package
   yum:

@@ -13,7 +13,7 @@
   service:
     name: disable-transparent-hugepages
     state: started
-    enabled: yes
+    enabled: true
 
 - name: install mongodb package
   package:

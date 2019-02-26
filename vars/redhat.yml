@@ -11,7 +11,7 @@ mongodb_automation_agent_url: https://cloud.mongodb.com/download/agent/automatio
 
 mongodb_os_config:
   processManagement:
-      fork: true
-      pidFilePath: /var/run/mongodb/mongod.pid
+    fork: true
+    pidFilePath: /var/run/mongodb/mongod.pid
   storage:
     dbPath: /var/lib/mongo

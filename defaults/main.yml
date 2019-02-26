@@ -1,5 +1,5 @@
 ---
-mongodb_version: "3.6" # supports x.y or x.y.z format
+mongodb_version: "3.6"  # supports x.y or x.y.z format
 mongodb_repo_key_url: "{{ (mongodb_version is version_compare('3.0', '>=')) | ternary('https://www.mongodb.org/static/pgp/server-' + mongodb_version[0:3] + '.asc', 'https://docs.mongodb.com/10gen-gpg-key.asc') }}"
 mongodb_apt_key_id: "{{ (mongodb_version[0:3] in mongodb_apt_keys) | ternary(mongodb_apt_keys[mongodb_version[0:3]], none) }}"
 
