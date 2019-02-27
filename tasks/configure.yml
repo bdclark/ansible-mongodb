@@ -74,10 +74,9 @@
     - restart disable-thp
     - restart mongodb
 
-- name: manage disable-thp service
+- name: enable disable-thp service
   systemd:
     name: disable-thp
-    state: started
     enabled: true
   when: mongodb_disable_thp
 
