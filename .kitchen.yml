@@ -17,7 +17,7 @@ provisioner:
   name: ansible_push
   ansible_config: test/ansible.cfg
   verbose: v
-  diff: true
+  # diff: true
   chef_bootstrap_url: nil
 
 verifier:
@@ -28,8 +28,6 @@ platforms:
     driver_config:
       image: bdclark/ubuntu-1804-test:latest
       run_command: /lib/systemd/systemd
-      # forward:
-      #   - 8080:8080
   - name: ubuntu-16.04
     driver_config:
       image: bdclark/ubuntu-1604-test:latest
@@ -40,11 +38,26 @@ platforms:
       run_command: /lib/systemd/systemd
 
 suites:
+  # mongodb 3.x
   - name: default
     provisioner:
       playbook: test/integration/default/playbook.yml
     excludes:
       - ubuntu-18.04
+  # since no supported Ubuntu 18.04 repo exists for mongodb 3.x,
+  # use playbook and tests for default suite, but force 16.04 repo for 18.04 testing
+  - name: default-bionic
+    includes:
+      - ubuntu-18.04
+    provisioner:
+      extra_vars:
+        mongodb_version: 3.6
+        mongodb_repository: deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse
+      playbook: test/integration/default/playbook.yml
+    verifier:
+      inspec_tests:
+        - path: test/integration/default/inspec
+  # mongodb 4.x
   - name: v40
     provisioner:
       playbook: test/integration/v40/playbook.yml
