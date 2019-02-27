@@ -1,41 +1,62 @@
 ---
-mongodb_version: "3.6"  # supports x.y or x.y.z format
-
+# version of mongodb to install, supports x.y or x.y.z format
+mongodb_version: "3.6"
+# mongodb repo key url (defaults to version-specific setting)
 mongodb_repo_key_url: https://www.mongodb.org/static/pgp/server-{{ mongodb_version_string[0:3] }}.asc
+# mongodb apt key id (defaults to version-specific setting)
 mongodb_apt_key_id: "{{ mongodb_apt_keys[mongodb_version_string[0:3]] | default('') }}"
+# mongodb repository url (defaults to os and version specific setting)
 mongodb_repository: "{{ mongodb_default_repository }}"
-mongodb_pymongo_install_method: ~   # 'pip', 'package', or ~ to not install
+# method used to install pymongo, support 'pip', 'package', or ~ to not install
+mongodb_pymongo_install_method: ~
 
 # whether service is enabled/disabled
 mongodb_service_enabled: true
 # whether service is started/stopped
 mongodb_service_state: "{{ mongodb_service_enabled | ternary('started', 'stopped') }}"
-# restart on config file/service changes
+# restart mongod on config file/service changes
 mongodb_restart_on_update: true
 
+# whether to add systemd service to disable transparent huge pages
 mongodb_disable_thp: false
-
+# mongodb configuration dictionary
 mongodb_config: {}
 
+# content of keyfile (ignored if not set)
+## will also be ignored unless path is set in mongodb_config.security.keyFile
+## this role will automatically create the file with this content
 mongodb_keyfile_content: ~
 
+# whether to add logrotate config
 mongodb_logrotate_enabled: true
+# logrotate settings
 mongodb_logrotate_config:
   frequency: daily
   rotate: 30
 
+# whether to install/configure mms monitoring agent
 mongodb_install_monitor_agent: false
 # set to override default deb/rpm package url
 mongodb_monitor_agent_pkg_url: "{{ mongodb_monitor_agent_default_pkg_url }}"
+# whether agent serivce should be started/enabled
 mongodb_enable_monitor_agent_service: true
+# agent config key/value pairs
 mongodb_monitor_agent_config: {}
+#  mmsGroupId: ~
+#  mmsApiKey: ~
 
+# whether to install/configure mms automation agent
 mongodb_install_automation_agent: false
 # set to override default deb/rpm package url
 mongodb_automation_agent_pkg_url: "{{ mongodb_automation_agent_default_pkg_url }}"
+# whether agent serivce should be started/enabled
 mongodb_enable_automation_agent_service: true
+# agent config key/value pairs
 mongodb_automation_agent_config: {}
+#  mmsGroupId: ~
+#  mmsApiKey: ~
 
+# template sources (override to use custom templates)
 mongodb_config_template: mongod_conf.j2
 mongodb_logrotate_template: mongod_logrotate.j2
 mongodb_monitor_agent_template: mms_monitoring_agent_config.j2
