@@ -4,9 +4,8 @@ mongodb_group: mongodb
 
 mongodb_default_repository: deb https://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release }}/mongodb-org/{{ mongodb_version_string[0:3] }} multiverse
 
-mongodb_monitor_agent_url: https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent_latest_amd64.deb
-mongodb_automation_agent_url: https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager_latest_amd64.deb
-
+mongodb_monitor_agent_default_pkg_url: https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent_latest_amd64.ubuntu1604.deb
+mongodb_automation_agent_default_pkg_url: https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager_latest_amd64.ubuntu1604.deb
 mongodb_os_config:
   storage:
     dbPath: /var/lib/mongodb

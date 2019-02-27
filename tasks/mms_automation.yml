@@ -1,23 +1,19 @@
 ---
 - name: download automation agent
   get_url:
-    url: "{{ mongodb_automation_agent_url }}"
-    dest: /tmp/{{ mongodb_automation_agent_url | basename }}
+    url: "{{ mongodb_automation_agent_pkg_url }}"
+    dest: /tmp/{{ mongodb_automation_agent_pkg_url | basename }}
 
 - name: install automation agent (deb)
   apt:
-    deb: /tmp/{{ mongodb_automation_agent_url | basename }}
+    deb: /tmp/{{ mongodb_automation_agent_pkg_url | basename }}
   when: ansible_os_family == 'Debian'
 
 - name: install automation agent (rpm)
   yum:
-    name: /tmp/{{ mongodb_automation_agent_url | basename }}
+    name: /tmp/{{ mongodb_automation_agent_pkg_url | basename }}
     state: present
   when: ansible_os_family == 'RedHat'
-
-- name: set automation agent config
-  set_fact:
-    mongodb_automation_agent_config: "{{ mongodb_automation_agent_base_config | combine(mongodb_automation_agent_config) }}"
 
 - name: write automation agent config
   template:

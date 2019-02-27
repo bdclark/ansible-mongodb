@@ -1,8 +1,8 @@
 # This file is managed by Ansible.
 
-{% for key, value in mongodb_monitor_agent_config.iteritems() %}
+{% for key, value in (mongodb_monitor_agent_base_config | combine(mongodb_monitor_agent_config)).iteritems() %}
 {{ key }}={{ value }}
 {% endfor %}
 
 # For additional optional settings, please see
-# https://docs.cloud.mongodb.com/reference/monitoring-agent/
+# https://docs.cloudmanager.mongodb.com/reference/monitoring-agent/

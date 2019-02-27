@@ -25,10 +25,14 @@ mongodb_logrotate_config:
   rotate: 30
 
 mongodb_install_monitor_agent: false
+# set to override default deb/rpm package url
+mongodb_monitor_agent_pkg_url: "{{ mongodb_monitor_agent_default_pkg_url }}"
 mongodb_enable_monitor_agent_service: true
 mongodb_monitor_agent_config: {}
 
 mongodb_install_automation_agent: false
+# set to override default deb/rpm package url
+mongodb_automation_agent_pkg_url: "{{ mongodb_automation_agent_default_pkg_url }}"
 mongodb_enable_automation_agent_service: true
 mongodb_automation_agent_config: {}
 

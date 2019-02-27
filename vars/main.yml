@@ -26,6 +26,7 @@ mongodb_mongos_base_config:
     path: /var/log/mongodb/mongos.log
 
 mongodb_monitor_agent_base_config:
+  mmsGroupId: ~
   mmsApiKey: ~
   mmsBaseUrl: https://api-agents.mongodb.com
 
