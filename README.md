@@ -1,7 +1,8 @@
 # mongodb
 
-Ansible role to install and configure MongoDB.
+[![Build Status](https://travis-ci.org/bdclark/ansible-mongodb.svg?branch=master)](https://travis-ci.org/bdclark/ansible-mongodb)
 
+Ansible role to install and configure MongoDB.
 Also optionally installs the MMS monitoring and/or automation agent(s).
 
 ## Role Variables
