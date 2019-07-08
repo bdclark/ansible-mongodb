@@ -2,7 +2,7 @@
 - hosts: all
   become: true
   vars:
-    mongodb_version: 4.0.5
+    mongodb_version: 3.6.13
   roles:
     - role: mongodb
   tasks:

@@ -5,6 +5,7 @@ driver:
   require_chef_omnibus: false
   cap_add:
     - SYS_ADMIN
+  run_command: /lib/systemd/systemd
   run_options:
     tmpfs:
       - /run
@@ -27,37 +28,31 @@ platforms:
   - name: ubuntu-18.04
     driver_config:
       image: bdclark/ubuntu-1804-test:latest
-      run_command: /lib/systemd/systemd
   - name: ubuntu-16.04
     driver_config:
       image: bdclark/ubuntu-1604-test:latest
-      run_command: /lib/systemd/systemd
   - name: centos-7
     driver_config:
       image: bdclark/centos-7-test:latest
-      run_command: /lib/systemd/systemd
 
 suites:
-  # mongodb 3.x
   - name: default
     provisioner:
       playbook: test/integration/default/playbook.yml
+  - name: v3.x
+    provisioner:
+      playbook: test/integration/v3.x/playbook.yml
     excludes:
       - ubuntu-18.04
   # since no supported Ubuntu 18.04 repo exists for mongodb 3.x,
   # use playbook and tests for default suite, but force 16.04 repo for 18.04 testing
-  - name: default-bionic
+  - name: v3.x-bionic
     includes:
       - ubuntu-18.04
     provisioner:
       extra_vars:
-        mongodb_version: 3.6
         mongodb_repository: deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse
-      playbook: test/integration/default/playbook.yml
+      playbook: test/integration/v3.x/playbook.yml
     verifier:
       inspec_tests:
-        - path: test/integration/default/inspec
-  # mongodb 4.x
-  - name: v40
-    provisioner:
-      playbook: test/integration/v40/playbook.yml
+        - path: test/integration/v3.x/inspec

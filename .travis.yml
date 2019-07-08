@@ -1,15 +1,19 @@
 ---
-language: ruby
+language: python
 services: docker
 dist: xenial
+python:
+  # - "2.7"
+  - "3.7"
 
 env:
   global:
-    - ROLE_NAME: mongodb
-    - REPO_NAME: "ansible-${ROLE_NAME}"
+    - ROLE_NAME=mongodb
+    - REPO_NAME=ansible-${ROLE_NAME}
   matrix:
-    - ANSIBLE_VERSION: '2.5'
-    - ANSIBLE_VERSION: '2.7'
+    - ANSIBLE_VERSION=2.6
+    - ANSIBLE_VERSION=2.7
+    - ANSIBLE_VERSION=2.8
 
 before_install:
   # project directory must match role name
@@ -20,12 +24,12 @@ before_install:
   - export BUNDLE_GEMFILE="$(pwd)/Gemfile"
 
 install:
-  - sudo pip install ansible==$ANSIBLE_VERSION ansible-lint yamllint
+  - pip install ansible==$ANSIBLE_VERSION ansible-lint yamllint
   - bundle install
 
 script:
   - yamllint .
-  - ansible-lint .
+  - ansible-lint -v . test/integration/default/playbook.yml test/integration/v3.x/playbook.yml
   - ansible --version
   - bundle exec kitchen list
-  - bundle exec kitchen verify
+  - bundle exec kitchen test

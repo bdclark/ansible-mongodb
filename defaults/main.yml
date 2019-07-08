@@ -1,6 +1,6 @@
 ---
 # version of mongodb to install, supports x.y or x.y.z format
-mongodb_version: "3.6"
+mongodb_version: "4.0"
 # mongodb repo key url (defaults to version-specific setting)
 mongodb_repo_key_url: https://www.mongodb.org/static/pgp/server-{{ mongodb_version_string[0:3] }}.asc
 # mongodb apt key id (defaults to version-specific setting)
