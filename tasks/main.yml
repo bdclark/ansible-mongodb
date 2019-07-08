@@ -3,8 +3,8 @@
   assert:
     that:
       - mongodb_version_string is version('3.0', '>=')
-      - mongodb_version_string | length >= 3
-      - mongodb_version_string | length <= 5
+      - mongodb_version_string.split('.') | length >= 2
+      - mongodb_version_string.split('.') | length <= 3
     msg: mongodb_version must be 3.0 or above in the format of x.y or x.y.z
 
 - name: include OS-specific variables
@@ -15,7 +15,7 @@
 - include: configure.yml
 
 - include: mms_monitoring.yml
-  when: mongodb_install_monitor_agent
+  when: mongodb_install_monitor_agent | bool
 
 - include: mms_automation.yml
-  when: mongodb_install_automation_agent
+  when: mongodb_install_automation_agent | bool

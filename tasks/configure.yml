@@ -68,7 +68,7 @@
     owner: root
     group: root
     mode: 0644
-  when: mongodb_disable_thp
+  when: mongodb_disable_thp | bool
   notify:
     - reload systemd
     - restart disable-thp
@@ -78,7 +78,7 @@
   systemd:
     name: disable-thp
     enabled: true
-  when: mongodb_disable_thp
+  when: mongodb_disable_thp | bool
 
 - name: manage mongod service
   service:

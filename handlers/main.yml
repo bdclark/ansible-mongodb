@@ -14,16 +14,16 @@
   service:
     name: mongodb-mms-monitoring-agent
     state: restarted
-  when: mongodb_enable_monitor_agent_service
+  when: mongodb_enable_monitor_agent_service | bool
 
 - name: restart mongodb-mms-automation-agent
   service:
     name: mongodb-mms-automation-agent
     state: restarted
-  when: mongodb_enable_automation_agent_service
+  when: mongodb_enable_automation_agent_service | bool
 
 - name: restart disable-thp
   systemd:
     name: disable-thp
     state: restarted
-  when: mongodb_disable_thp
+  when: mongodb_disable_thp | bool
