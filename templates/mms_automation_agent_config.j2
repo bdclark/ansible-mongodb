@@ -1,7 +1,7 @@
 # This file is managed by Ansible.
 
-{% for key, value in (mongodb_automation_agent_base_config | combine(mongodb_automation_agent_config)).iteritems() %}
-{{ key }}={{ value }}
+{% for item in (mongodb_automation_agent_base_config | combine(mongodb_automation_agent_config))|dict2items %}
+{{ item.key }}={{ item.value }}
 {% endfor %}
 
 # For additional optional settings, please see

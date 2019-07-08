@@ -1,8 +1,8 @@
 # This file is managed by Ansible.
 
 {{ mongodb_final_config.systemLog.path }} {
-{% for key, value in mongodb_logrotate_config.iteritems() %}
-    {{ value if key == 'frequency' else key + ' ' + value|string }}
+{% for item in mongodb_logrotate_config|dict2items %}
+    {{ item.value if item.key == 'frequency' else item.key + ' ' + item.value|string }}
 {% endfor %}
     missingok
     compress
