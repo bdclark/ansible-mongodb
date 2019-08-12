@@ -1,17 +1,12 @@
 ---
-- name: download automation agent
-  get_url:
-    url: "{{ mongodb_automation_agent_pkg_url }}"
-    dest: /tmp/{{ mongodb_automation_agent_pkg_url | basename }}
-
 - name: install automation agent (deb)
   apt:
-    deb: /tmp/{{ mongodb_automation_agent_pkg_url | basename }}
+    deb: "{{ mongodb_automation_agent_deb_url }}"
   when: ansible_os_family == 'Debian'
 
 - name: install automation agent (rpm)
   yum:
-    name: /tmp/{{ mongodb_automation_agent_pkg_url | basename }}
+    name: "{{ mongodb_automation_agent_rpm_url }}"
     state: present
   when: ansible_os_family == 'RedHat'
 

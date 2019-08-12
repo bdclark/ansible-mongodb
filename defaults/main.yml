@@ -37,7 +37,9 @@ mongodb_logrotate_config:
 # whether to install/configure mms monitoring agent
 mongodb_install_monitor_agent: false
 # set to override default deb/rpm package url
-mongodb_monitor_agent_pkg_url: "{{ mongodb_monitor_agent_default_pkg_url }}"
+# NOTE: the default urls install the lastest version and could upgrade the agent
+mongodb_monitor_agent_deb_url: https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent_latest_amd64.ubuntu1604.deb
+mongodb_monitor_agent_rpm_url: https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent-latest.x86_64.rpm
 # whether agent serivce should be started/enabled
 mongodb_enable_monitor_agent_service: true
 # agent config key/value pairs
@@ -48,7 +50,9 @@ mongodb_monitor_agent_config: {}
 # whether to install/configure mms automation agent
 mongodb_install_automation_agent: false
 # set to override default deb/rpm package url
-mongodb_automation_agent_pkg_url: "{{ mongodb_automation_agent_default_pkg_url }}"
+# NOTE: the default urls install the lastest version and could upgrade the agent
+mongodb_automation_agent_deb_url: https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager_latest_amd64.ubuntu1604.deb
+mongodb_automation_agent_rpm_url: https://cloud.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager-latest.x86_64.rpm
 # whether agent serivce should be started/enabled
 mongodb_enable_automation_agent_service: true
 # agent config key/value pairs

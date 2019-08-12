@@ -1,17 +1,12 @@
 ---
-- name: download monitoring agent
-  get_url:
-    url: "{{ mongodb_monitor_agent_pkg_url }}"
-    dest: /tmp/{{ mongodb_monitor_agent_pkg_url | basename }}
-
 - name: install monitoring agent (deb)
   apt:
-    deb: /tmp/{{ mongodb_monitor_agent_pkg_url | basename }}
+    deb: "{{ mongodb_monitor_agent_deb_url }}"
   when: ansible_os_family == 'Debian'
 
 - name: install monitoring agent (rpm)
   yum:
-    name: /tmp/{{ mongodb_monitor_agent_pkg_url | basename }}
+    name: "{{ mongodb_monitor_agent_rpm_url }}"
     state: present
   when: ansible_os_family == 'RedHat'
 
