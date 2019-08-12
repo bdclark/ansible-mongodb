@@ -1,9 +1,4 @@
 ---
-- name: install mongodb package
-  package:
-    name: mongodb-org
-    state: present
-
 - name: ensure data directory
   file:
     state: directory
