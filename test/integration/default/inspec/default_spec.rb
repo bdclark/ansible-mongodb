@@ -30,14 +30,11 @@ describe file('/etc/mongod.conf') do
 end
 
 describe yaml('/etc/mongod.conf') do
-  its(%w[net port]) { should eq 27_017 }
-  its(%w[net bindIp]) { should eq '127.0.0.1' }
   its(%w[storage dbPath]) { should eq data_dir }
   its(%w[storage journal enabled]) { should eq true }
   its(%w[systemLog destination]) { should eq 'file' }
   its(%w[systemLog logAppend]) { should eq true }
   its(%w[systemLog path]) { should eq '/var/log/mongodb/mongod.log' }
-  its(%w[processManagement timeZoneInfo]) { should eq '/usr/share/zoneinfo' }
 end
 
 describe directory(data_dir) do

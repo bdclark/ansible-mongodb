@@ -19,9 +19,6 @@ exist and have the correct ownership and permissions.
 
 #### Debian/Ubuntu
 ```yaml
-net:
-  port: 27017
-  bindIp: 127.0.0.1
 storage:
   dbPath: /var/lib/mongodb
   journal:
@@ -36,9 +33,6 @@ storage:
 
 #### RedHat
 ```yaml
-net:
-  port: 27017
-  bindIp: 127.0.0.1
 storage:
   dbPath: /var/lib/mongo
   journal:
@@ -63,7 +57,7 @@ processManagement:
       security:
         keyFile: /etc/mongodb.keyfile
       net:
-        bindIp: 0.0.0.0
+        bindIpAll: true
       storage:
         dbPath: /data/mongodb
     mongodb_keyfile_content: ilikerandomsecrets

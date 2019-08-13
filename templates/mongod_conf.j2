@@ -1,3 +1,4 @@
-# This file is managed by Ansible.
+# This file is managed by Ansible. For documentation of all options, see:
+#   http://docs.mongodb.org/manual/reference/configuration-options/
 
-{{ mongodb_final_config | to_nice_yaml }}
+{{ mongodb_final_config | to_nice_yaml(indent=2) }}
